@@ -6,8 +6,8 @@
 
 /*=====[Avoid multiple inclusion - begin]====================================*/
 
-#ifndef __EJERCICIO_2_H__
-#define __EJERCICIO_2_H__
+#ifndef __EJERCICIO_3_H__
+#define __EJERCICIO_3_H__
 
 /*=====[Inclusions of public function dependencies]==========================*/
 
@@ -40,4 +40,4 @@ extern "C" {
 
 /*=====[Avoid multiple inclusion - end]======================================*/
 
-#endif /* __EJERCICIO_2_H__ */
+#endif /* __EJERCICIO_3_H__ */
