@@ -47,9 +47,7 @@ int main( void )
 	   tick_t * ptiempos 		= tiempos_normal;
 	   uint8_t selecSecuencia 	= 0;
 
-	   // Debounce
-	   delay_t DebounceNBD;
-	   delayInit( &DebounceNBD, DEBOUNCE_TIME);
+
 
    // Mensaje de inició del programa
    printf("Secuencia Comenzada\n");

@@ -7,6 +7,7 @@
 #include "sapi.h"
 #include "teclas.h"
 
+
 /*=============================================================================
 * Funcion: leerTecla -> Utilizada para leer teclas en la placa EDU CIAA.
 * Parametros de Entrada: gpioMap_t tecla tipo de datos de sapi.h
@@ -17,6 +18,14 @@
 bool_t leerTecla (gpioMap_t tecla)
 {
 	bool_t ret_val;
+	bool_t MEF_Init=FALSE;
+
+	static estadoMEF_t estadoActual;
+
+	delay_t DebounceNBD;
+
+	if(!(MEF_Init))
+
 
    // Validacion de teclas presentes en la placa EDU CIAA.
    if ((tecla == TEC1) || (tecla == TEC2) || (tecla == TEC3) || (tecla == TEC4)) {
@@ -30,3 +39,18 @@ bool_t leerTecla (gpioMap_t tecla)
 
 	return ret_val;
 }
+
+void inicializarMEF (void)
+{
+
+	estadoActual = UP_STATE;
+	delayInit( &DebounceNBD, DEBOUNCE_TIME);
+
+}
+
+
+
+
+
+
+
