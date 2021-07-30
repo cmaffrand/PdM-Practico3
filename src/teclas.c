@@ -104,11 +104,11 @@ bool_t actualizarMEF( gpioMap_t tecla )
 }
 
 void buttonPressed (gpioMap_t tecla){
-	printf("Tecla presionada %s\n", tecla);
+	printf("Tecla presionada TEC%d \n", tecla-35);
 }
 
 void buttonReleased (gpioMap_t tecla){
-	printf("Tecla soltada %s\n", tecla);
+	printf("Tecla soltada TEC%d \n", tecla-35);
 }
 
 
