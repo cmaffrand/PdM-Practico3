@@ -42,11 +42,21 @@ bool_t leerTecla (gpioMap_t tecla)
 	return ret_val;
 }
 
+/*=============================================================================
+* Funcion: inicializarMEF -> .
+*=============================================================================*/
+
 void inicializarMEF (void)
 {
 	estadoActual = UP_STATE;
 	delayInit( &DebounceNBD, DEBOUNCE_TIME);
 }
+
+/*=============================================================================
+* Funcion: actualizarMEF -> .
+* Parametros de Entrada: 
+* Valor de retorno:	
+*=============================================================================*/
 
 bool_t actualizarMEF( gpioMap_t tecla )
 {	
@@ -66,7 +76,7 @@ bool_t actualizarMEF( gpioMap_t tecla )
 		case FALLING_STATE:
 			if (instant_read == 0){
 				estadoActual = DOWN_STATE;
-				//buttonPressed
+				buttonPressed(tecla);
 				ret_val = 0;
 			}
 			else estadoActual = UP_STATE;
@@ -79,7 +89,7 @@ bool_t actualizarMEF( gpioMap_t tecla )
 		case RISING_STATE:
 			if (instant_read == 1){
 				estadoActual = UP_STATE;
-				//buttonReleased
+				buttonReleased(tecla);
 			}
 			else estadoActual = DOWN_STATE;
 			break;
@@ -93,6 +103,13 @@ bool_t actualizarMEF( gpioMap_t tecla )
 	return ret_val;
 }
 
+void buttonPressed (gpioMap_t tecla){
+	printf("Tecla presionada %s\n", tecla);
+}
+
+void buttonReleased (gpioMap_t tecla){
+	printf("Tecla soltada %s\n", tecla);
+}
 
 
 

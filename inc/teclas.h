@@ -40,6 +40,8 @@ typedef enum{
 bool_t leerTecla (gpioMap_t tecla);
 void inicializarMEF (void);
 bool_t actualizarMEF( gpioMap_t tecla );
+void buttonPressed (gpioMap_t tecla);
+void buttonReleased (gpioMap_t tecla);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
