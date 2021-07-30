@@ -38,12 +38,12 @@ typedef enum{
 typedef struct {	// estructura para controlar el antirrebote de un tecla
 gpioMap_t tecla;
 delay_t delay;
-estadoMEF_t estado
+estadoMEF_t estado;
 } dbn_t;
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
-bool_t leerTecla (gpioMap_t tecla);
+bool_t leerTecla (dbn_t * ptecla);
 void inicializarMEF (dbn_t * ptecla);
 bool_t actualizarMEF( dbn_t * ptecla );
 void buttonPressed (gpioMap_t tecla);

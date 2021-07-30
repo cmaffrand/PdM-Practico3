@@ -41,17 +41,18 @@ int main( void )
 	   //teclas
 	   dbn_t tecla2;
 	   tecla2.tecla = TEC2;
+	   dbn_t tecla3;
+	   tecla3.tecla = TEC3;
 
 	   // Inicializar las variables y estructuras del retardo no bloqueante.
 	   delayInit( &NonBlockingDelay, tiempos_normal[0]);
 
 	   // Crear varias variables
 	   gpioMap_t * psecuencia 	= semaforo_normal;
-	   bool_t camSecFlag    	= FALSE; // bandera "debounce"
 	   tick_t * ptiempos 		= tiempos_normal;
-	   dbn_t * ptecla2			= tecla2;
+	   dbn_t * ptecla2			= &tecla2;
+	   dbn_t * ptecla3			= &tecla3;
 	   uint8_t selecSecuencia 	= 0;
-
 
 
    // Mensaje de inició del programa
@@ -87,6 +88,7 @@ int main( void )
 			if (leerTecla( ptecla2 ) == OFF) {
 				selecSecuencia++;
 				if (selecSecuencia >= 3) selecSecuencia = 0;
+				printf("Secuencia++\n");
 				switch (selecSecuencia)
 				{
 				case 0:
@@ -96,12 +98,32 @@ int main( void )
 					printf("Secuencia Desconectado\n");
 					break;
 				case 2:
-			    	printf("Secuencia Alarma\n");
+					printf("Secuencia Alarma\n");
 					break;
 				default:
 					break;
 				}
 			}
+			if (leerTecla( ptecla3 ) == OFF) {
+				selecSecuencia--;
+				if (selecSecuencia >= 3) selecSecuencia = 2;
+				printf("Secuencia--\n");
+				switch (selecSecuencia)
+				{
+				case 0:
+					printf("Secuencia Normal\n");
+					break;
+				case 1:
+					printf("Secuencia Desconectado\n");
+					break;
+				case 2:
+					printf("Secuencia Alarma\n");
+					break;
+				default:
+					break;
+				}
+			}
+
 		 }
    }
    // YOU NEVER REACH HERE, because this program runs directly or on a
