@@ -22,7 +22,7 @@ extern "C" {
 
 /*=====[Definition macros of public constants]===============================*/
 
-#define DEBOUNCE_TIME 50
+#define DEBOUNCE_TIME 20
 
 /*=====[Public function-like macros]=========================================*/
 
@@ -38,7 +38,7 @@ typedef enum{
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
 bool_t leerTecla (gpioMap_t tecla);
-void InicializarMEF(void );
+void InicializarMEF(void);
 void ActualizarMEF(void);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/

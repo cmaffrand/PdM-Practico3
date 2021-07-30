@@ -7,6 +7,10 @@
 #include "sapi.h"
 #include "teclas.h"
 
+/*=====[Definitions of public global variables]==============================*/
+
+static estadoMEF_t estadoActual;
+static delay_t DebounceNBD;
 
 /*=============================================================================
 * Funcion: leerTecla -> Utilizada para leer teclas en la placa EDU CIAA.
@@ -18,18 +22,16 @@
 bool_t leerTecla (gpioMap_t tecla)
 {
 	bool_t ret_val;
-	bool_t MEF_Init=FALSE;
+	static bool_t MEF_Init = TRUE;
 
-	static estadoMEF_t estadoActual;
-
-	delay_t DebounceNBD;
-
-	if(!(MEF_Init))
-
+	if(MEF_Init){
+		inicializarMEF();
+		MEF_Init = FALSE;
+	}
 
    // Validacion de teclas presentes en la placa EDU CIAA.
    if ((tecla == TEC1) || (tecla == TEC2) || (tecla == TEC3) || (tecla == TEC4)) {
-	   ret_val = gpioRead( tecla );
+	   ret_val = ActualizarMEF( tecla );
    }
    else {
    // No se puede leer ninguna tecla.
@@ -42,10 +44,53 @@ bool_t leerTecla (gpioMap_t tecla)
 
 void inicializarMEF (void)
 {
-
 	estadoActual = UP_STATE;
 	delayInit( &DebounceNBD, DEBOUNCE_TIME);
+}
 
+bool_t ActualizarMEF( gpioMap_t tecla )
+{	
+	bool_t ret_val = 1;
+	bool_t instant_read;
+
+	if (delayRead(&DebounceNBD) == TRUE) {
+		instant_read = gpioRead( tecla );
+		switch (estadoActual)
+		{
+		case UP_STATE:
+			if (instant_read == 0){
+				estadoActual = FALLING_STATE;
+			}
+			break;
+		case FALLING_STATE:
+			if (instant_read == 0){
+				estadoActual = DOWN_STATE;
+				//buttonPressed
+				ret_val = 0;
+			}
+			else estadoActual = UP_STATE;
+			break;
+		case DOWN_STATE:
+			if (instant_read == 1){
+				estadoActual = RISING_STATE;
+			}
+			break;
+		case RISING_STATE:
+			if (instant_read == 1){
+				estadoActual = UP_STATE;
+				//buttonReleased
+			}
+			else estadoActual = DOWN_STATE;
+			break;
+		
+		default:
+			estadoActual = UP_STATE;
+			break;
+		}
+	}
+	else delayInit( &DebounceNBD, DEBOUNCE_TIME);
+
+	return ret_val;
 }
 
 
