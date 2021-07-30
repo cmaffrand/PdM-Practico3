@@ -31,7 +31,7 @@ bool_t leerTecla (gpioMap_t tecla)
 
    // Validacion de teclas presentes en la placa EDU CIAA.
    if ((tecla == TEC1) || (tecla == TEC2) || (tecla == TEC3) || (tecla == TEC4)) {
-	   ret_val = ActualizarMEF( tecla );
+	   ret_val = actualizarMEF( tecla );
    }
    else {
    // No se puede leer ninguna tecla.
@@ -48,12 +48,13 @@ void inicializarMEF (void)
 	delayInit( &DebounceNBD, DEBOUNCE_TIME);
 }
 
-bool_t ActualizarMEF( gpioMap_t tecla )
+bool_t actualizarMEF( gpioMap_t tecla )
 {	
 	bool_t ret_val = 1;
 	bool_t instant_read;
 
 	if (delayRead(&DebounceNBD) == TRUE) {
+		delayInit( &DebounceNBD, DEBOUNCE_TIME);
 		instant_read = gpioRead( tecla );
 		switch (estadoActual)
 		{
@@ -88,7 +89,6 @@ bool_t ActualizarMEF( gpioMap_t tecla )
 			break;
 		}
 	}
-	else delayInit( &DebounceNBD, DEBOUNCE_TIME);
 
 	return ret_val;
 }

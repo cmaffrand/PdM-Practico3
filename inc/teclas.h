@@ -38,8 +38,8 @@ typedef enum{
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
 bool_t leerTecla (gpioMap_t tecla);
-void InicializarMEF(void);
-void ActualizarMEF(void);
+void inicializarMEF (void);
+bool_t actualizarMEF( gpioMap_t tecla );
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
