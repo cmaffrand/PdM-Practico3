@@ -38,6 +38,10 @@ int main( void )
 	   tick_t tiempos_desconectado[]		= {500, 500};
 	   tick_t tiempos_alarma[]				= {1000, 1000};
 
+	   //teclas
+	   dbn_t tecla2;
+	   tecla2.tecla = TEC2;
+
 	   // Inicializar las variables y estructuras del retardo no bloqueante.
 	   delayInit( &NonBlockingDelay, tiempos_normal[0]);
 
@@ -45,6 +49,7 @@ int main( void )
 	   gpioMap_t * psecuencia 	= semaforo_normal;
 	   bool_t camSecFlag    	= FALSE; // bandera "debounce"
 	   tick_t * ptiempos 		= tiempos_normal;
+	   dbn_t * ptecla2			= tecla2;
 	   uint8_t selecSecuencia 	= 0;
 
 
@@ -79,7 +84,7 @@ int main( void )
 		}
 	   // Si no se cumple el delay pooling de botones.
 		 else {
-			if (leerTecla( TEC2 ) == OFF) {
+			if (leerTecla( ptecla2 ) == OFF) {
 				selecSecuencia++;
 				if (selecSecuencia >= 3) selecSecuencia = 0;
 				switch (selecSecuencia)

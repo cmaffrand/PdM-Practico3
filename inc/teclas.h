@@ -35,11 +35,17 @@ typedef enum{
 	    RISING_STATE
 	} estadoMEF_t;
 
+typedef struct {	// estructura para controlar el antirrebote de un tecla
+gpioMap_t tecla;
+delay_t delay;
+estadoMEF_t estado
+} dbn_t;
+
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
 bool_t leerTecla (gpioMap_t tecla);
-void inicializarMEF (void);
-bool_t actualizarMEF( gpioMap_t tecla );
+void inicializarMEF (dbn_t * ptecla);
+bool_t actualizarMEF( dbn_t * ptecla );
 void buttonPressed (gpioMap_t tecla);
 void buttonReleased (gpioMap_t tecla);
 

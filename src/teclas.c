@@ -19,19 +19,19 @@ static delay_t DebounceNBD;
 * no fue pulsada una tecla permitida.	 	*
 *=============================================================================*/
 
-bool_t leerTecla (gpioMap_t tecla)
+bool_t leerTecla (dbn_t * ptecla)
 {
 	bool_t ret_val;
 	static bool_t MEF_Init = TRUE;
 
 	if(MEF_Init){
-		inicializarMEF();
+		inicializarMEF(ptecla);
 		MEF_Init = FALSE;
 	}
 
    // Validacion de teclas presentes en la placa EDU CIAA.
-   if ((tecla == TEC1) || (tecla == TEC2) || (tecla == TEC3) || (tecla == TEC4)) {
-	   ret_val = actualizarMEF( tecla );
+   if ((ptecla.tecla == TEC1) || (ptecla.tecla == TEC2) || (ptecla.tecla == TEC3) || (ptecla.tecla == TEC4)) {
+	   ret_val = actualizarMEF( ptecla );
    }
    else {
    // No se puede leer ninguna tecla.
@@ -46,10 +46,10 @@ bool_t leerTecla (gpioMap_t tecla)
 * Funcion: inicializarMEF -> .
 *=============================================================================*/
 
-void inicializarMEF (void)
+void inicializarMEF (dbn_t * ptecla)
 {
-	estadoActual = UP_STATE;
-	delayInit( &DebounceNBD, DEBOUNCE_TIME);
+	ptecla.estado = UP_STATE;
+	delayInit( &(ptecla.delay), DEBOUNCE_TIME);
 }
 
 /*=============================================================================
@@ -58,44 +58,44 @@ void inicializarMEF (void)
 * Valor de retorno:	
 *=============================================================================*/
 
-bool_t actualizarMEF( gpioMap_t tecla )
+bool_t actualizarMEF( dbn_t * ptecla )
 {	
 	bool_t ret_val = 1;
 	bool_t instant_read;
 
-	if (delayRead(&DebounceNBD) == TRUE) {
-		delayInit( &DebounceNBD, DEBOUNCE_TIME);
-		instant_read = gpioRead( tecla );
-		switch (estadoActual)
+	if (delayRead(&(ptecla.delay)) == TRUE) {
+		delayInit( &(ptecla.delay), DEBOUNCE_TIME);
+		instant_read = gpioRead( ptecla.tecla );
+		switch (ptecla.estado)
 		{
 		case UP_STATE:
 			if (instant_read == 0){
-				estadoActual = FALLING_STATE;
+				ptecla.estado = FALLING_STATE;
 			}
 			break;
 		case FALLING_STATE:
 			if (instant_read == 0){
-				estadoActual = DOWN_STATE;
-				buttonPressed(tecla);
+				ptecla.estado = DOWN_STATE;
+				buttonPressed(ptecla.tecla);
 				ret_val = 0;
 			}
-			else estadoActual = UP_STATE;
+			else ptecla.estado = UP_STATE;
 			break;
 		case DOWN_STATE:
 			if (instant_read == 1){
-				estadoActual = RISING_STATE;
+				ptecla.estado = RISING_STATE;
 			}
 			break;
 		case RISING_STATE:
 			if (instant_read == 1){
-				estadoActual = UP_STATE;
-				buttonReleased(tecla);
+				ptecla.estado = UP_STATE;
+				buttonReleased(ptecla.tecla);
 			}
-			else estadoActual = DOWN_STATE;
+			else ptecla.estado = DOWN_STATE;
 			break;
 		
 		default:
-			estadoActual = UP_STATE;
+			ptecla.estado = UP_STATE;
 			break;
 		}
 	}
@@ -110,9 +110,3 @@ void buttonPressed (gpioMap_t tecla){
 void buttonReleased (gpioMap_t tecla){
 	printf("Tecla soltada TEC%d \n", tecla-35);
 }
-
-
-
-
-
-
