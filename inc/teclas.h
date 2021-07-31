@@ -17,41 +17,44 @@
 /*=====[C++ - begin]=========================================================*/
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/*=====[Definition macros of public constants]===============================*/
+	/*=====[Definition macros of public constants]===============================*/
 
 #define DEBOUNCE_TIME 20
 
-/*=====[Public function-like macros]=========================================*/
+	/*=====[Public function-like macros]=========================================*/
 
-/*=====[Definitions of public data types]====================================*/
+	/*=====[Definitions of public data types]====================================*/
 
-typedef enum{
-	    UP_STATE,
-	    DOWN_STATE,
-	    FALLING_STATE,
-	    RISING_STATE
+	typedef enum
+	{
+		UP_STATE,
+		DOWN_STATE,
+		FALLING_STATE,
+		RISING_STATE
 	} estadoMEF_t;
 
-typedef struct {	// estructura para controlar el antirrebote de un tecla
-gpioMap_t tecla;
-delay_t delay;
-estadoMEF_t estado;
-} dbn_t;
+	typedef struct
+	{ // estructura para controlar el antirrebote de un tecla
+		gpioMap_t tecla;
+		delay_t delay;
+		estadoMEF_t estado;
+	} dbn_t;
 
-/*=====[Prototypes (declarations) of public functions]=======================*/
+	/*=====[Prototypes (declarations) of public functions]=======================*/
 
-bool_t leerTecla (dbn_t * ptecla);
-void inicializarMEF (dbn_t * ptecla);
-bool_t actualizarMEF(dbn_t * ptecla);
-void buttonPressed (gpioMap_t tecla);
-void buttonReleased (gpioMap_t tecla);
+	bool_t leerTecla(dbn_t *ptecla);
+	void inicializarMEF(dbn_t *ptecla);
+	bool_t actualizarMEF(dbn_t *ptecla);
+	void buttonPressed(gpioMap_t tecla);
+	void buttonReleased(gpioMap_t tecla);
 
-/*=====[Prototypes (declarations) of public interrupt functions]=============*/
+	/*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
-/*=====[C++ - end]===========================================================*/
+	/*=====[C++ - end]===========================================================*/
 
 #ifdef __cplusplus
 }
