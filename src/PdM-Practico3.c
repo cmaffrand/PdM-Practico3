@@ -1,7 +1,7 @@
 /*=============================================================================
  * Authors: Carlos Maffrand 	<carlosmaffrand5@gmail.com>
  *			Hernan Gomez Molino	<hernangomezmolino@gmail.com>
- * Date: 2021/07/07
+ * Date: 2021/07/30
  *===========================================================================*/
 
 /*=====[Inclusions of function dependencies]=================================*/
@@ -26,14 +26,10 @@ int main(void)
 	// Inicializar y configurar la plataforma
 	boardConfig();
 
-	//teclas
-	dbn_t tecla1;
+	//Inicializacion de estructuras de teclas
 	tecla1.tecla = TEC1;
-	dbn_t tecla2;
 	tecla2.tecla = TEC2;
-	dbn_t tecla3;
 	tecla3.tecla = TEC3;
-	dbn_t tecla4;
 	tecla4.tecla = TEC4;
 
 	// Punteros de teclas
@@ -47,10 +43,10 @@ int main(void)
 	// ----- Repeat for ever -------------------------
 	while (true)
 	{
-		// Pooling de botones.
+		// Polling de botones.
 		if (leerTecla(ptecla1) == OFF)
 		{
-			// Poner funcionalidad de tecla 1.
+		// Poner funcionalidad de tecla 1.
 		}
 		if (leerTecla(ptecla2) == OFF)
 		{
@@ -62,13 +58,11 @@ int main(void)
 		}
 		if (leerTecla(ptecla4) == OFF)
 		{
-			// Poner funcionalidad de tecla 4.
+		// Poner funcionalidad de tecla 4.
 		}
 		// Lammado a la MEF de manejo de estados del semaforo
 		semaforoStateMEF();
 	}
-	// YOU NEVER REACH HERE, because this program runs directly or on a
-	// microcontroller and is not called by any Operating System, as in the
-	// case of a PC program.
+
 	return 0;
 }

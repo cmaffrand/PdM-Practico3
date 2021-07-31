@@ -47,12 +47,16 @@ extern "C"
 		OFF_STATE
 	} estadoSem_t;
 
+	estadoSem_t semaforoState;
+
 	typedef enum
 	{
 		NORMAL_MODE,
 		DISCONNECTED_MODE,
 		ALARM_MODE
 	} modoSem_t;
+
+	modoSem_t semaforoMode;
 
 	/*=====[Prototypes (declarations) of public functions]=======================*/
 

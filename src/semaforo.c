@@ -7,19 +7,18 @@
 #include "sapi.h"
 #include "led.h"
 #include "semaforo.h"
+#include "uart.h"
 
 /*=====[Definitions of public global variables]==============================*/
 
-static modoSem_t semaforoMode;
-static estadoSem_t semaforoState;
 static delay_t SemaforoNBD;
 
 /*=====[Definitions of functions]==============================*/
 
 /*=============================================================================
-* Funcion: semaforoModeMEF -> .
-* Parametros de Entrada: 
-* Valor de retorno:	
+* Funcion: semaforoModeMEF -> Maquina de estado finito que maneja los modos del
+* semaforo.
+* Parametros de Entrada: bool_t updown -> cambio a siguiente o anterior.
 *=============================================================================*/
 
 void semaforoModeMEF(bool_t updown)
@@ -84,20 +83,19 @@ void semaforoModeMEF(bool_t updown)
 }
 
 /*=============================================================================
-* Funcion: initSemaforoModeMEF -> .
+* Funcion: initSemaforoModeMEF -> Inicializa el semaforo en modo normal
 *=============================================================================*/
 
 void initSemaforoModeMEF(void)
 {
     semaforoMode = NORMAL_MODE;
-    // Mensaje de inició del programa
-    printf("Secuencia Comenzada\n");
-    printf("Secuencia Normal\n");
+    displaySemaforo();
     initSemaforoStateMEF();
 }
 
 /*=============================================================================
-* Funcion: initSemaforoModeMEF -> .
+* Funcion: initSemaforoState MEF -> Se inicializa en el ultimo estado de modo
+* normal, para que dispare un cambio y arranque en el primer estado (RED_STATE).
 *=============================================================================*/
 
 void initSemaforoStateMEF(void)
@@ -109,9 +107,8 @@ void initSemaforoStateMEF(void)
 }
 
 /*=============================================================================
-* Funcion: semaforoStateMEF -> .
-* Parametros de Entrada:
-* Valor de retorno:
+* Funcion: semaforoStateMEF -> Maquina de estado finito que maneja los estados
+* del semaforo. Los cambios de estado dependen del temporizado.
 *=============================================================================*/
 
 void semaforoStateMEF(void)
@@ -201,5 +198,6 @@ void semaforoStateMEF(void)
                 break;
             }
         }
+        displaySemaforo();
     }
 }

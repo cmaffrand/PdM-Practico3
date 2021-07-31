@@ -1,7 +1,7 @@
 /*=============================================================================
  * Authors: Carlos Maffrand 	<carlosmaffrand5@gmail.com>
  *			Hernan Gomez Molino	<hernangomezmolino@gmail.com>
- * Date: 2021/07/07
+ * Date: 2021/07/30
  *===========================================================================*/
 
 #include "sapi.h"
@@ -11,7 +11,7 @@
 
 /*=============================================================================
 * Funcion: leerTecla -> Utilizada para leer teclas en la placa EDU CIAA.
-* Parametros de Entrada: gpioMap_t tecla tipo de datos de sapi.h
+* Parametros de Entrada: puntero a estructura dbn_t
 * Valor de retorno:	ret_val -> 1 si la función se ejecutó correctamente * 0 si
 * no fue pulsada una tecla permitida.	 	*
 *=============================================================================*/
@@ -43,7 +43,10 @@ bool_t leerTecla(dbn_t *ptecla)
 }
 
 /*=============================================================================
-* Funcion: inicializarMEF -> .
+* Funcion: inicializarMEF -> Iniciliza la maquina de estado finito que maneja
+* el antirrebote para lectura de teclas.
+* Parametros de Entrada: puntero a estructura dbn_t -> posee toda la información
+* de una tecla determinada.
 *=============================================================================*/
 
 void inicializarMEF(dbn_t *ptecla)
@@ -53,9 +56,11 @@ void inicializarMEF(dbn_t *ptecla)
 }
 
 /*=============================================================================
-* Funcion: actualizarMEF -> .
-* Parametros de Entrada: 
-* Valor de retorno:	
+* Funcion: actualizarMEF -> Maneja la maquina de estado finitos del antirrebote
+* de teclas.
+* Parametros de Entrada: puntero a estructura dbn_t -> posee toda la información
+* de una tecla determinada.
+* Valor de retorno:	bool_t -> indica si la tecla fue presionada o no.
 *=============================================================================*/
 
 bool_t actualizarMEF(dbn_t *ptecla)
@@ -110,12 +115,22 @@ bool_t actualizarMEF(dbn_t *ptecla)
 	return ret_val;
 }
 
+/*=============================================================================
+* Funcion: buttonPressed -> Funcion que debe ejecutarse cuando una tecla fue
+* presionada.
+* Parametros de Entrada: gpioMap_t -> tecla.
+* *=============================================================================*/
 void buttonPressed(gpioMap_t tecla)
 {
-	printf("Tecla presionada TEC%d \n", tecla - 35);
+	displaySemaforo();
 }
 
+/*=============================================================================
+* Funcion: buttonReleased -> Funcion que debe ejecutarse cuando una tecla fue
+* soltada.
+* Parametros de Entrada: gpioMap_t -> tecla.
+* *=============================================================================*/
 void buttonReleased(gpioMap_t tecla)
 {
-	printf("Tecla soltada TEC%d \n", tecla - 35);
+	displaySemaforo();
 }

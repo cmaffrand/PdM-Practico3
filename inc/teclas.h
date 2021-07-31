@@ -1,7 +1,7 @@
 /*=============================================================================
  * Authors: Carlos Maffrand 	<carlosmaffrand5@gmail.com>
  *			Hernan Gomez Molino	<hernangomezmolino@gmail.com>
- * Date: 2021/07/07
+ * Date: 2021/07/30
  *===========================================================================*/
 
 /*=====[Avoid multiple inclusion - begin]====================================*/
@@ -43,6 +43,11 @@ extern "C"
 		delay_t delay;
 		estadoMEF_t estado;
 	} dbn_t;
+
+	dbn_t tecla1;
+	dbn_t tecla2;
+	dbn_t tecla3;
+	dbn_t tecla4;
 
 	/*=====[Prototypes (declarations) of public functions]=======================*/
 
