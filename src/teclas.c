@@ -9,9 +9,6 @@
 
 /*=====[Definitions of public global variables]==============================*/
 
-static estadoMEF_t estadoActual;
-static delay_t DebounceNBD;
-
 /*=============================================================================
 * Funcion: leerTecla -> Utilizada para leer teclas en la placa EDU CIAA.
 * Parametros de Entrada: gpioMap_t tecla tipo de datos de sapi.h

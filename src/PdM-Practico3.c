@@ -11,6 +11,7 @@
 #include "teclas.h"
 #include "led.h"
 #include "secuencia.h"
+#include "semaforo.h"
 
 /*=====[Definition macros of private constants]==============================*/
 
@@ -39,10 +40,14 @@ int main( void )
 	   tick_t tiempos_alarma[]				= {1000, 1000};
 
 	   //teclas
+	   dbn_t tecla1;
+	   tecla1.tecla = TEC1;
 	   dbn_t tecla2;
 	   tecla2.tecla = TEC2;
 	   dbn_t tecla3;
 	   tecla3.tecla = TEC3;
+	   dbn_t tecla4;
+	   tecla4.tecla = TEC4;
 
 	   // Inicializar las variables y estructuras del retardo no bloqueante.
 	   delayInit( &NonBlockingDelay, tiempos_normal[0]);
@@ -50,11 +55,13 @@ int main( void )
 	   // Crear varias variables
 	   gpioMap_t * psecuencia 	= semaforo_normal;
 	   tick_t * ptiempos 		= tiempos_normal;
+	   dbn_t * ptecla1			= &tecla1;
 	   dbn_t * ptecla2			= &tecla2;
 	   dbn_t * ptecla3			= &tecla3;
+	   dbn_t * ptecla4			= &tecla4;
 	   uint8_t selecSecuencia 	= 0;
 
-
+   initSemaforoModeMEF();
    // Mensaje de inició del programa
    printf("Secuencia Comenzada\n");
    printf("Secuencia Normal\n");
@@ -85,45 +92,18 @@ int main( void )
 		}
 	   // Si no se cumple el delay pooling de botones.
 		 else {
+			if (leerTecla( ptecla1 ) == OFF) {
+				// Poner funcionalidad de tecla 1.
+			}
 			if (leerTecla( ptecla2 ) == OFF) {
-				selecSecuencia++;
-				if (selecSecuencia >= 3) selecSecuencia = 0;
-				printf("Secuencia++\n");
-				switch (selecSecuencia)
-				{
-				case 0:
-					printf("Secuencia Normal\n");
-					break;
-				case 1:
-					printf("Secuencia Desconectado\n");
-					break;
-				case 2:
-					printf("Secuencia Alarma\n");
-					break;
-				default:
-					break;
-				}
+				semaforoModeMEF(MDOE_UP);
 			}
 			if (leerTecla( ptecla3 ) == OFF) {
-				selecSecuencia--;
-				if (selecSecuencia >= 3) selecSecuencia = 2;
-				printf("Secuencia--\n");
-				switch (selecSecuencia)
-				{
-				case 0:
-					printf("Secuencia Normal\n");
-					break;
-				case 1:
-					printf("Secuencia Desconectado\n");
-					break;
-				case 2:
-					printf("Secuencia Alarma\n");
-					break;
-				default:
-					break;
-				}
+				semaforoModeMEF(MODE_DOWN);
 			}
-
+			if (leerTecla( ptecla4 ) == OFF) {
+				// Poner funcionalidad de tecla 4.
+			}
 		 }
    }
    // YOU NEVER REACH HERE, because this program runs directly or on a

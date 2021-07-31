@@ -1,13 +1,13 @@
 /*=============================================================================
  * Authors: Carlos Maffrand 	<carlosmaffrand5@gmail.com>
  *			Hernan Gomez Molino	<hernangomezmolino@gmail.com>
- * Date: 2021/07/07
+ * Date: 2021/07/30
  *===========================================================================*/
 
 /*=====[Avoid multiple inclusion - begin]====================================*/
 
-#ifndef __TECLAS_H__
-#define __TECLAS_H__
+#ifndef __SEMAFORO_H__
+#define __SEMAFORO_H__
 
 /*=====[Inclusions of public function dependencies]==========================*/
 
@@ -22,32 +22,28 @@ extern "C" {
 
 /*=====[Definition macros of public constants]===============================*/
 
-#define DEBOUNCE_TIME 20
-
 /*=====[Public function-like macros]=========================================*/
 
 /*=====[Definitions of public data types]====================================*/
 
 typedef enum{
-	    UP_STATE,
-	    DOWN_STATE,
-	    FALLING_STATE,
-	    RISING_STATE
-	} estadoMEF_t;
+	    RED_STATE,
+	    REDYELLOW_STATE,
+	    GREEN_STATE,
+	    YELLOW_STATE,
+	    OFF_STATE
+	} estadoSem_t;
 
-typedef struct {	// estructura para controlar el antirrebote de un tecla
-gpioMap_t tecla;
-delay_t delay;
-estadoMEF_t estado;
-} dbn_t;
+typedef enum{
+	    NORMAL_MODE,
+	    DISCONNECTED_MODE,
+	    ALARM_MODE
+	} modoSem_t;
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
-bool_t leerTecla (dbn_t * ptecla);
-void inicializarMEF (dbn_t * ptecla);
-bool_t actualizarMEF(dbn_t * ptecla);
-void buttonPressed (gpioMap_t tecla);
-void buttonReleased (gpioMap_t tecla);
+void initSemaforoModeMEF (void);
+void semaforoModeMEF (uint8_t updown);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 
@@ -59,4 +55,4 @@ void buttonReleased (gpioMap_t tecla);
 
 /*=====[Avoid multiple inclusion - end]======================================*/
 
-#endif /* __TECLAS_H__ */
+#endif /* __SEMAFORO_H__ */
