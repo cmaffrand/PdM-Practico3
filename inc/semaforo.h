@@ -22,6 +22,17 @@ extern "C" {
 
 /*=====[Definition macros of public constants]===============================*/
 
+#define MODE_UP     			1
+#define MODE_DOWN   			0
+#define DELAY_ROJO_NORMAL		3000
+#define DELAY_ROJOAMA_NORMAL	500
+#define DELAY_VERDE_NORMAL		1000
+#define DELAY_AMARILLO_NORMAL	500
+#define DELAY_AMARILLO_DESC		500
+#define DELAY_OFF_DESC			500
+#define DELAY_ROJO_ALARMA		1000
+#define DELAY_OFF_ALARMA		1000
+
 /*=====[Public function-like macros]=========================================*/
 
 /*=====[Definitions of public data types]====================================*/
@@ -43,7 +54,9 @@ typedef enum{
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
 void initSemaforoModeMEF (void);
-void semaforoModeMEF (uint8_t updown);
+void semaforoModeMEF (bool_t updown);
+void initSemaforoStateMEF (void);
+void semaforoStateMEF (void);
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 

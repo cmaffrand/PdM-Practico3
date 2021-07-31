@@ -9,8 +9,6 @@
 #include "PdM-Practico3.h"
 #include "sapi.h"
 #include "teclas.h"
-#include "led.h"
-#include "secuencia.h"
 #include "semaforo.h"
 
 /*=====[Definition macros of private constants]==============================*/
@@ -18,9 +16,6 @@
 /*=====[Definitions of extern global variables]==============================*/
 
 /*=====[Definitions of public global variables]==============================*/
-
-uint8_t ultimoLed;
-delay_t NonBlockingDelay;
 
 /*=====[Definitions of private global variables]=============================*/
 
@@ -30,14 +25,6 @@ int main( void )
 {
 	 // Inicializar y configurar la plataforma
 	   boardConfig();
-
-	   //Secuencias
-	   gpioMap_t semaforo_normal[] 			= {LED1, LED2, LED1, LED3};
-	   gpioMap_t semaforo_desconectado[] 	= {LED_OFF, LED1};
-	   gpioMap_t semaforo_alarma[] 			= {LED_OFF, LED2};
-	   tick_t tiempos_normal[]				= {500, 3000, 500, 1000};
-	   tick_t tiempos_desconectado[]		= {500, 500};
-	   tick_t tiempos_alarma[]				= {1000, 1000};
 
 	   //teclas
 	   dbn_t tecla1;
@@ -49,62 +36,32 @@ int main( void )
 	   dbn_t tecla4;
 	   tecla4.tecla = TEC4;
 
-	   // Inicializar las variables y estructuras del retardo no bloqueante.
-	   delayInit( &NonBlockingDelay, tiempos_normal[0]);
-
-	   // Crear varias variables
-	   gpioMap_t * psecuencia 	= semaforo_normal;
-	   tick_t * ptiempos 		= tiempos_normal;
+	   // Punteros de teclas
 	   dbn_t * ptecla1			= &tecla1;
 	   dbn_t * ptecla2			= &tecla2;
 	   dbn_t * ptecla3			= &tecla3;
 	   dbn_t * ptecla4			= &tecla4;
-	   uint8_t selecSecuencia 	= 0;
 
-   initSemaforoModeMEF();
-   // Mensaje de inició del programa
-   printf("Secuencia Comenzada\n");
-   printf("Secuencia Normal\n");
-   ultimoLed = sizeof(semaforo_normal)/sizeof(gpioMap_t);
+	   initSemaforoModeMEF();
+
    // ----- Repeat for ever -------------------------
    while( true ) {
-
-	   // Chequeo del delay no bloquenate.
-	   if (delayRead(&NonBlockingDelay) == TRUE) {
-		   // Selección de la secuencia
-		   if (selecSecuencia == 0) {
-			   psecuencia 	= semaforo_normal;
-			   ptiempos 	= tiempos_normal;
-			   ultimoLed 	= sizeof(semaforo_normal)/sizeof(gpioMap_t);			   
-		   }
-		   else if (selecSecuencia == 1) {
-			   psecuencia 	= semaforo_desconectado;
-			   ptiempos 	= tiempos_desconectado;
-			   ultimoLed 	= sizeof(semaforo_desconectado)/sizeof(gpioMap_t);
-		   }
-		   else {
-			   psecuencia 	= semaforo_alarma;
-			   ptiempos 	= tiempos_alarma;
-			   ultimoLed 	= sizeof(semaforo_alarma)/sizeof(gpioMap_t);
-		   }
-		   // Ejecución de la secuencia.
-		   activarSecuencia(psecuencia, TRUE, ptiempos);
+	   // Pooling de botones.
+		if (leerTecla( ptecla1 ) == OFF) {
+			// Poner funcionalidad de tecla 1.
 		}
-	   // Si no se cumple el delay pooling de botones.
-		 else {
-			if (leerTecla( ptecla1 ) == OFF) {
-				// Poner funcionalidad de tecla 1.
-			}
-			if (leerTecla( ptecla2 ) == OFF) {
-				semaforoModeMEF(MDOE_UP);
-			}
-			if (leerTecla( ptecla3 ) == OFF) {
-				semaforoModeMEF(MODE_DOWN);
-			}
-			if (leerTecla( ptecla4 ) == OFF) {
-				// Poner funcionalidad de tecla 4.
-			}
-		 }
+		if (leerTecla( ptecla2 ) == OFF) {
+			semaforoModeMEF(MODE_UP);
+		}
+		if (leerTecla( ptecla3 ) == OFF) {
+			semaforoModeMEF(MODE_DOWN);
+		}
+		if (leerTecla( ptecla4 ) == OFF) {
+			// Poner funcionalidad de tecla 4.
+		}
+		// Lammado a la MEF de manejo de estados del semaforo
+		semaforoStateMEF();
+
    }
    // YOU NEVER REACH HERE, because this program runs directly or on a
    // microcontroller and is not called by any Operating System, as in the 
