@@ -6,6 +6,7 @@
 
 #include "sapi.h"
 #include "teclas.h"
+#include "uart.h"
 
 /*=====[Definitions of public global variables]==============================*/
 
